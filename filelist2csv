@@ -27,17 +27,22 @@ Dir.chdir input_folder
 
 book_dirs = Dir.glob("*").select { |file| File.directory? file}
 
+csv_header = '"isbn", "number", "image"'
+File.open('import.csv', 'w') do |f|
+  f.puts csv_header
+end # 我只能这样先增加csv header，因为后面是append模式，如果后面增加header就会增加n次
+
+csv_array = []
 book_dirs.each do |dir|
   book_contents = Dir.entries(dir).select { |f| f =~ SUFFIX}
   book_contents.sort!
   book_name = dir
-  csv_array = []
   book_contents.each_with_index { |img, idx| csv_array << [book_name, idx+1, img] }
-  CSV.open("import.csv", "a", :force_quotes => true) do |csv|
+  CSV.open("import.csv", "a", :force_quotes => true,) do |csv|
     csv_array.each {|line| csv << line}
   end
 end
-  
+
 outfile_with_path =  File.expand_path('import.csv')
 puts "\n\n您要的文件生成好了，在#{outfile_with_path}。\n\n请查看。\n\n"
 
