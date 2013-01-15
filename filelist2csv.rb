@@ -1,4 +1,6 @@
+#!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
+
 require 'pp'
 require 'csv'
 
