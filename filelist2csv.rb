@@ -4,6 +4,12 @@ require 'csv'
 
 # usage: ruby #{$0} [目录名]
 
+# 输入为包含图书文件夹的目录
+# 脚本会发现该目录中的所有图书目录并生成这些目录包含图片文件(jpg/jpeg/png)文件的csv列表
+# 列表也会存在输入目录中
+# 输出文件名称为 import.csv
+
+
 (puts "\n usage: ruby #{$0} [目录名] \n "; exit;) unless ARGV.size == 1
 
 DEBUG = nil
