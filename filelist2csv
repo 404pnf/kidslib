@@ -28,9 +28,11 @@ Dir.chdir input_folder
 book_dirs = Dir.glob("*").select { |file| File.directory? file}
 
 book_dirs.each do |dir|
-  book_contents = Dir.entries(dir).select { |f| f =~ SUFFIX} 
+  book_contents = Dir.entries(dir).select { |f| f =~ SUFFIX}
+  book_contents.sort!
   book_name = dir
-  csv_array = book_contents.map { |img| [book_name, img] }
+  csv_array = []
+  book_contents.each_with_index { |img, idx| csv_array << [book_name, idx+1, img] }
   CSV.open("import.csv", "a", :force_quotes => true) do |csv|
     csv_array.each {|line| csv << line}
   end
