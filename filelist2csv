@@ -26,7 +26,7 @@ Dir.chdir input_folder # 我们换目录啦！
 
 book_dirs = Dir.glob("*").select { |file| File.directory? file}
 
-csv_header = '"isbn", "number", "image"'
+csv_header = '"isbn","number","image"'
 
 File.open('import.csv', 'w') do |f|
   f.puts csv_header
@@ -46,6 +46,6 @@ end
 line_number = File.readlines('import.csv').size
 
 outfile_with_path =  File.expand_path('import.csv')
-puts "\n\n您要的文件生成好了，在#{outfile_with_path}。\n\n 一共有#{line_number -1}条数据。\n\n请查看。\n\n"
+puts "\n\n您要的文件生成好了，在#{outfile_with_path}。\n\n一共有#{line_number -1}条数据。\n\n请查看。\n\n"
 
 
