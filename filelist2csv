@@ -43,7 +43,9 @@ book_dirs.each do |dir|
   end
 end
 
+line_number = File.readlines('import.csv').size
+
 outfile_with_path =  File.expand_path('import.csv')
-puts "\n\n您要的文件生成好了，在#{outfile_with_path}。\n\n请查看。\n\n"
+puts "\n\n您要的文件生成好了，在#{outfile_with_path}。\n\n 一共有#{line_number -1}条数据。\n\n请查看。\n\n"
 
 
