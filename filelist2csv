@@ -11,29 +11,29 @@ require 'csv'
 # 列表也会存在输入目录中
 # 输出文件名称为 import.csv
 
-
+DEBUG = nil
 (puts "\n usage: ruby #{$0} [目录名] \n "; exit;) unless ARGV.size == 1
 
-DEBUG = nil
+input_folder = File.expand_path ARGV[0] 
+p input_folder if DEBUG # 最后没有斜扛
 
 # 首先清除上次遗留的删除，因为这回用的是追加 append
 File.delete('import.csv') if File.exist?('import.csv')
 
-input_folder = File.expand_path ARGV[0] 
-
 SUFFIX = /\.(jpg|jpeg|png)/i
 
-Dir.chdir input_folder
+Dir.chdir input_folder # 我们换目录啦！
 
 book_dirs = Dir.glob("*").select { |file| File.directory? file}
 
 csv_header = '"isbn", "number", "image"'
+
 File.open('import.csv', 'w') do |f|
   f.puts csv_header
 end # 我只能这样先增加csv header，因为后面是append模式，如果后面增加header就会增加n次
 
-csv_array = []
 book_dirs.each do |dir|
+  csv_array = []
   book_contents = Dir.entries(dir).select { |f| f =~ SUFFIX}
   book_contents.sort!
   book_name = dir
