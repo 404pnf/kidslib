@@ -26,7 +26,7 @@ Dir.chdir input_folder # 我们换目录啦！
 
 book_dirs = Dir.glob("*").select { |file| File.directory? file}
 
-csv_header = '"isbn","number","image"'
+csv_header = '"isbn","number","image","number1"'
 
 File.open('import.csv', 'w') do |f|
   f.puts csv_header
@@ -37,7 +37,7 @@ book_dirs.each do |dir|
   book_contents = Dir.entries(dir).select { |f| f =~ SUFFIX}
   book_contents.sort!
   book_name = dir
-  book_contents.each_with_index { |img, idx| csv_array << [book_name, idx+1, img] }
+  book_contents.each_with_index { |img, idx| csv_array << [book_name, idx+1, img, idx+1] }
   CSV.open("import.csv", "a", :force_quotes => true,) do |csv|
     csv_array.each {|line| csv << line}
   end
