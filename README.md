@@ -1,3 +1,13 @@
+# 如何使用
+
+usage: ruby #{$0} [目录名]
+
+输入为包含图书文件夹的目录
+脚本会发现该目录中的所有图书目录并生成这些目录包含图片文件(jpg/jpeg/png)文件的csv列表
+列表也会存在输入目录中
+输出文件名称为 import_{date}.csv
+
+
 # 把本脚本作为ruby脚本使用
 
 usage: ruby #{$0} [目录名]
@@ -26,3 +36,14 @@ usage: ruby #{$0} [目录名]
     mv filelist2csv.rb ~/bin/filelist2csv
 
 之后就可以在任何目录直接调用 filelist2csv了。
+
+# 生成任意大小的文件
+
+
+1. use dd to generate huge sparse files that don't occupy real disk space
+
+2. mv generated files to usb disk
+
+3. use openssl to encrypt those files.  The encrypted files takes real disk space!!
+
+4. also, one can use gpc -c inputfile to encrypt the files
