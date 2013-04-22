@@ -9,7 +9,7 @@ require 'csv'
 # 输入为包含图书文件夹的目录
 # 脚本会发现该目录中的所有图书目录并生成这些目录包含图片文件(jpg/jpeg/png)文件的csv列表
 # 列表也会存在输入目录中
-# 输出文件名称为 import.csv
+# 输出文件名称为 import_{date}.csv
 
 DEBUG = nil
 (puts "\n usage: ruby #{$0} [目录名] \n "; exit;) unless ARGV.size == 1
@@ -32,6 +32,8 @@ File.open('import.csv', 'w') do |f|
   f.puts csv_header
 end # 我只能这样先增加csv header，因为后面是append模式，如果后面增加header就会增加n次
 
+
+outputfile = "import-#{Time.now}"
 book_dirs.each do |dir|
   csv_array = []
   book_contents = Dir.entries(dir).select { |f| f =~ SUFFIX}
