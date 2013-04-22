@@ -13,7 +13,7 @@ fib = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597]
 # call bash command
 # system( touch 'touch.txt' )
 
-usb= '/media/布奇新标准/'
+# dd 不加任何 of 的话默认输出是当前目录
 arr = ('a'..'z').to_a | (0..9).to_a
 (prime + fib).each { |size|
   filename = 'ziyuan-jiami-' + arr.shuffle.take(6).join + '.crypt'
