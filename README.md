@@ -49,4 +49,8 @@ usage: ruby #{$0} [目录名]
 4. also, one can use gpc -c inputfile to encrypt the files
 
 # TODO
+
 只用用ruby的标准库来加密文件吧。
+
+	> '000000000'.crypt('adfsdfasfsaf')
+	=> "adpNaFzzBd/3w
