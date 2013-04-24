@@ -47,3 +47,6 @@ usage: ruby #{$0} [目录名]
 3. use openssl to encrypt those files.  The encrypted files takes real disk space!!
 
 4. also, one can use gpc -c inputfile to encrypt the files
+
+# TODO
+只用用ruby的标准库来加密文件吧。
