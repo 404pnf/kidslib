@@ -2,3 +2,5 @@
 #*
 *#
 *.crypt
+*.sqlite
+*/*/DS_Store
