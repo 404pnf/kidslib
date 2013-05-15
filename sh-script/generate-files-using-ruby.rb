@@ -2,24 +2,32 @@
 require 'securerandom'
 
 # USAGE:
-#     ruby script.rb size_in_terabye
+#     ruby script.rb size_in_terabyte
 # This will generate huge files with random date at the current direcotry.
 
 
-REQUIRED_SIZE = ARGV[0].to_i * 1000
+(p 'USAGE: ruby script.rb file-size-in-terabyte' ; exit) if ARGV[0].nil?
+
+MAX_SIZE = 12
+
+# 命令行中输入的大小是TB，比如 1.5 就是 1.5TB 就是1500GB
+REQUIRED_SIZE = ARGV[0].to_f * 1000 + MAX_SIZE
 
 # 我开始的随机字符串小一点，后面写文件的时候多写1000多次，这样可能快一些。
 # 不用1024和1000省的一看就是生成的
+# 现在的BLOCKDATA大小是1MB
 BLOCKDATA = SecureRandom.random_bytes(1024 * 1193 )
 
-
 numbers = []
-1000.times { numbers << rand(12)}
+2000.times { numbers << rand(MAX_SIZE)}
 
-sum = 0
-filesize_sum_tuple = []
+def reduction(op, val, list)
+  res = [val]
+  list.each {|x| res << res.last.send(op, x) }
+  res
+end
 
-numbers.each { |x| filesize_sum_tuple << [x, sum = sum + x] }
+filesize_sum_tuple = numbers.zip(reduction(:+, 0, numbers))
 
 final_arr = filesize_sum_tuple.take_while {|t| t[1] < REQUIRED_SIZE} .collect {|t| t[0]}
 
