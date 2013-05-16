@@ -2,7 +2,7 @@
 require 'securerandom'
 
 # USAGE:
-#     ruby script.rb size_in_terabyte
+#     ruby script.rb size_in_gigabyte
 # This will generate huge files with random date at the current direcotry.
 
 
@@ -11,7 +11,7 @@ require 'securerandom'
 MAX_SIZE = 12
 
 # 命令行中输入的大小是TB，比如 1.5 就是 1.5TB 就是1500GB
-REQUIRED_SIZE = ARGV[0].to_f * 1000 + MAX_SIZE
+REQUIRED_SIZE = ARGV[0].to_i + MAX_SIZE
 
 # 我开始的随机字符串小一点，后面写文件的时候多写1000多次，这样可能快一些。
 # 不用1024和1000省的一看就是生成的
