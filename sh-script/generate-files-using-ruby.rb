@@ -5,8 +5,13 @@ require 'securerandom'
 #     ruby script.rb size_in_gigabyte
 # This will generate huge files with random date at the current direcotry.
 
+(p 'USAGE: ruby script.rb file-size-in-gigabyte' ; exit) if ARGV[0].nil?
 
-(p 'USAGE: ruby script.rb file-size-in-terabyte' ; exit) if ARGV[0].nil?
+def reduction(op, val, list)
+  res = [val]
+  list.each {|x| res << res.last.send(op, x) }
+  res
+end
 
 MAX_SIZE = 12
 
@@ -21,15 +26,11 @@ BLOCKDATA = SecureRandom.random_bytes(1024 * 1193 )
 numbers = []
 2000.times { numbers << rand(MAX_SIZE)}
 
-def reduction(op, val, list)
-  res = [val]
-  list.each {|x| res << res.last.send(op, x) }
-  res
-end
-
 filesize_sum_tuple = numbers.zip(reduction(:+, 0, numbers))
 
 final_arr = filesize_sum_tuple.take_while {|t| t[1] < REQUIRED_SIZE} .collect {|t| t[0]}
+
+final_arr.delete(0) # random出来的数字是有0的，不要生成大小为0的文件了
 
 p final_arr
 
@@ -50,7 +51,8 @@ final_arr.each_with_index do |n, idx|
   puts "\n\n Generatinng file number #{idx+1}. \n\n"
   filename = "ziyuan-jiami-#{SecureRandom.hex(3)}.sqlite"
   #(1 * n).times do # for use in testing the script
-  (1216 * n).times do #因为前面的BLOCKDATA实际上不是GB是MB因此这里乘以1000多变成GB
+  (1216 * n).times do
+    # 因为前面的BLOCKDATA实际上不是GB是1个MB因此这里乘以1千多变成GB
     # 注意函数后面的()与函数之间不能有空格
     # File.open ("test.sqlite", 'a') do |file| 这是错误的，有空格。浪费我10分钟！
     File.open(filename, 'a') do |file|
@@ -58,17 +60,3 @@ final_arr.each_with_index do |n, idx|
     end
   end
 end
-
-
-
-=begin
-# 删除一些数字如果你觉得生成的总文件过大的话
-prime = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71]
-#fib = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597]
-fib = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377]
-
-total = (prime.zip fib).flatten.compact # 去掉nil
-number_of_files = total.size
-number_of_gb = total.reduce(:+)
-=end
-
