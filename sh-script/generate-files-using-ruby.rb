@@ -1,11 +1,21 @@
 # -*- coding: utf-8 -*-
 require 'securerandom'
 
+# 修改TOTOAL_SIZE，写上你想要要的总共生成文件大小
+# 单位是GB 要生成500GB的文件就写500
+# 1.3T 就写 1300
+TOTAL_SIZE = 500 # 修改这里
+# 如果不写，默认是5000
+# 如果命令行给出相应参数
+# 命令行参数优先
+TOTAL_SIZE = ARGV[0].to_i unless ARGV[0].to_i
+
 # USAGE:
 #     ruby script.rb size_in_gigabyte
 # This will generate huge files with random date at the current direcotry.
 
-(p 'USAGE: ruby script.rb file-size-in-gigabyte' ; exit) if ARGV[0].nil?
+# 大部分使用本脚本的人是不会去使用命令行的。因此也就不提示了。
+# (p 'USAGE: ruby script.rb file-size-in-gigabyte' ; exit) if ARGV[0].nil?
 
 def reduction(op, val, list)
   res = [val]
@@ -15,8 +25,9 @@ end
 
 MAX_SIZE = 12
 
-# 命令行中输入的大小是TB，比如 1.5 就是 1.5TB 就是1500GB
-REQUIRED_SIZE = ARGV[0].to_i + MAX_SIZE
+# 命令行中输入的大小是GB，
+
+REQUIRED_SIZE = TOTAL_SIZE + MAX_SIZE
 
 # 我开始的随机字符串小一点，后面写文件的时候多写1000多次，这样可能快一些。
 # 不用1024和1000省的一看就是生成的
@@ -41,12 +52,6 @@ p "\n\n ### generating files ### \n"
 p "number of files:  #{number_of_files}。"
 p "size in gigabyte: #{number_of_gb}。"
 
-# File.write方法有问题，因为用这个方法需要一次性地在内存中生成很多GB的字符串并写入文件
-# 下面的方法会因为内存不够无法正确执行
-#total.each_with_index { |times, idx| File.write("#{filename_prefix}#{SecureRandom.hex(3)}.sqlite", BLOCKDATA * times); p "写好了第#{idx}文件。\n" }
-
-# 这种方法避免了内存不足的问题。
-# 我们每次只写一小块，写n多次。
 final_arr.each_with_index do |n, idx|
   puts "\n\n Generatinng file number #{idx+1}. \n\n"
   filename = "ziyuan-jiami-#{SecureRandom.hex(3)}.sqlite"
@@ -60,3 +65,11 @@ final_arr.each_with_index do |n, idx|
     end
   end
 end
+
+
+# File.write方法有问题，因为用这个方法需要一次性地在内存中生成很多GB的字符串并写入文件
+# 下面的方法会因为内存不够无法正确执行
+#total.each_with_index { |times, idx| File.write("#{filename_prefix}#{SecureRandom.hex(3)}.sqlite", BLOCKDATA * times); p "写好了第#{idx}文件。\n" }
+
+# 这种方法避免了内存不足的问题。
+# 我们每次只写一小块，写n多次。
