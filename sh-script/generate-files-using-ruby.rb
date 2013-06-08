@@ -4,7 +4,7 @@ require 'securerandom'
 # 修改TOTOAL_SIZE，写上你想要要的总共生成文件大小
 # 单位是GB 要生成500GB的文件就写500
 # 1.3T 就写 1300
-TOTAL_SIZE = 500 # 修改这里
+TOTAL_SIZE = 320 # 修改这里
 # 如果不写，默认是5000
 # 如果命令行给出相应参数
 # 命令行参数优先
