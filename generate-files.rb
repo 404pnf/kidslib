@@ -39,8 +39,8 @@ p "size in gigabyte: #{number_of_gb}。"
 
 
 # array的并集  [1,4] | [1,2,3]  是 [1, 4, 2, 3]
-arr = ('a'..'z').to_a | (0..9).to_a 
-# 另外一种生成随机字符的方法 
+arr = ('a'..'z').to_a | (0..9).to_a
+# 另外一种生成随机字符的方法
 # SecureRandom.hex(6)
 # 也可以用sample方法
 # a = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
