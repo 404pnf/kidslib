@@ -3,25 +3,25 @@
 # 在当前目录生成内容随机的文件。文件大小从1G到5G不等。文件总大小同过命令行参数设定。
 
 ## 使用说明
-
+#
 #     ruby script.rb total_file_size
-
+#
 # 命令行跟总共要生成的文件大小。单位是GB。
-
+#
 # 举例：
-
+#
 # 不加任何参数执行脚本默认生成100GB文件
-
+#
 #     ruby script.rb
-
+#
 # 要生成总共500GB的文件
-
+#
 #     ruby script.rb 500
-
+#
 # 要生成总共1.5TB的文件
-
+#
 #     ruby script.rb 1500
-
+#
 # ----
 
 require 'securerandom'
@@ -57,22 +57,23 @@ module U
 
   @n = 0
 
-  # [[6655, "ziyuan-jiami-3dd9937c.data"], [2662, "ziyuan-jiami-82fff573.data"], [3993, "ziyuan-jiami-033706fd.data"], [1331, "ziyuan-jiami-18f2d5ad.data"], [5324, "ziyuan-jiami-9c69a104.data"] ... ]
+
+  # size_filename_pair 结果例子
+  #
+  # [[6655, "ziyuan-jiami-3dd9937c.data"], [2662, "ziyuan-jiami-82fff573.data"], ... ]
   def size_filename_pair(total_file_size)
     numbers.each
            .take_while { |e| @n += e; @n < total_file_size }
            .zip(filenames)
            .map { |gb, filename| [gb * 1331, filename] }
   end
-  # module_function :final_pair
+
 end
 
-# p U.numbers.take 10
-# p U.size_filename_pair 60
-
+# ----
 # 命名空间
 module GenHugeFile
-  # include U # 没有，只对 class instance 起作用 ； 即使写了，在self.method中仍需要写U
+  # include U # 没用，只对 class instance 起作用 ； 即使写了，在self.method中仍需要写U
   def gen(total_file_size)
     U.size_filename_pair(total_file_size).each do |size_in_mb, filename|
       p "writing #{filename}, #{size_in_mb}MB"
@@ -82,4 +83,6 @@ module GenHugeFile
   module_function :gen
 end
 
-GenHugeFile.gen ARGV[0].to_i
+# ----
+# 干活
+GenHugeFile.gen ARGV[0].to_i || 100

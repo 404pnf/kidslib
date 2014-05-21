@@ -136,7 +136,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>[[6655, &quot;ziyuan-jiami-3dd9937c.data&quot;], [2662, &quot;ziyuan-jiami-82fff573.data&quot;], [3993, &quot;ziyuan-jiami-033706fd.data&quot;], [1331, &quot;ziyuan-jiami-18f2d5ad.data&quot;], [5324, &quot;ziyuan-jiami-9c69a104.data&quot;] ... ]</p>
+              <p>[[6655, &quot;ziyuan-jiami-3dd9937c.data&quot;], [2662, &quot;ziyuan-jiami-82fff573.data&quot;], ... ]</p>
 
             </div>
             
@@ -144,8 +144,9 @@
     numbers.each
            .take_while { |e|  <span class="variable">@n</span> += e; <span class="variable">@n</span> &lt; total_file_size }
            .zip(filenames)
-           .map { |gb, filename| [gb * <span class="number">1331</span>, filename] }
-  <span class="keyword">end</span></pre></div></div>
+           .map { |gigabye, filename| [gigabye * <span class="number">1331</span>, filename] }
+  <span class="keyword">end</span>
+<span class="keyword">end</span></pre></div></div>
             
         </li>
         
@@ -156,11 +157,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <p>module_function :final_pair</p>
+              <p>命名空间</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="keyword">end</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">module</span> <span class="title">GenHugeFile</span></span></pre></div></div>
             
         </li>
         
@@ -170,23 +171,6 @@
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
-              </div>
-              <p>p U.numbers.take 10
-p U.size_filename_pair 60</p>
-<p>命名空间</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">module</span> <span class="title">GenHugeFile</span></span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-8">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>include U # 没有，只对 class instance 起作用 ； 即使写了，在self.method中仍需要写U</p>
 
@@ -201,9 +185,35 @@ p U.size_filename_pair 60</p>
     <span class="keyword">end</span>
   <span class="keyword">end</span>
   module_function <span class="symbol">:gen</span>
-<span class="keyword">end</span>
+<span class="keyword">end</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <hr>
 
-<span class="constant">GenHugeFile</span>.gen <span class="constant">ARGV</span>[<span class="number">0</span>].to_i</pre></div></div>
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>干活</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="constant">GenHugeFile</span>.gen <span class="constant">ARGV</span>[<span class="number">0</span>].to_i || <span class="number">100</span></pre></div></div>
             
         </li>
         
