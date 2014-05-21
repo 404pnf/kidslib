@@ -56,7 +56,7 @@ module GenHugeFile
     n = 0
     while n < total_file_size
       filename =  "ziyuan-jiami-#{SecureRandom.hex(6)}.data"
-      size = SecureRandom.random_number single_file_max_size
+      size = (SecureRandom.random_number single_file_max_size) + 1 # 因为random出来的数字可能是1
       (1013 * size).times do
         File.open(filename, 'a') { |f| f.puts((GenHugeFile::BLOCKDATA).call) }
       end
