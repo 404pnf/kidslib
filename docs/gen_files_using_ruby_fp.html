@@ -11,27 +11,6 @@
   <div id="container">
     <div id="background"></div>
     
-      <ul id="jump_to">
-        <li>
-          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
-          <a class="small" href="javascript:void(0);">+</a>
-          <div id="jump_wrapper">
-          <div id="jump_page">
-            
-              
-              <a class="source" href="gen_bash.html">
-                gen_bash.rb
-              </a>
-            
-              
-              <a class="source" href="gen_files_using_ruby_fp.html">
-                gen_files_using_ruby_fp.rb
-              </a>
-            
-          </div>
-        </li>
-      </ul>
-    
     <ul class="sections">
         
         
@@ -89,15 +68,11 @@
   extend <span class="keyword">self</span> <span class="comment"># 让所有定义的参数都是module_function</span>
 
   <span class="function"><span class="keyword">def</span> <span class="title">blockdata</span></span>
-    -&gt; { <span class="constant">SecureRandom</span>.random_bytes(<span class="number">1024</span> * <span class="number">1193</span>) }   <span class="comment"># 大小约1MB</span>
+    <span class="constant">SecureRandom</span>.random_bytes(<span class="number">1024</span> * <span class="number">1193</span>)  <span class="comment"># 大小约1MB</span>
   <span class="keyword">end</span>
 
   <span class="function"><span class="keyword">def</span> <span class="title">random_filename</span></span>
-    -&gt; { <span class="string">"ziyuan-jiami-<span class="subst">#{<span class="constant">SecureRandom</span>.hex(<span class="number">4</span>)}</span>.data"</span> }
-  <span class="keyword">end</span>
-
-  <span class="function"><span class="keyword">def</span> <span class="title">single_file_max_size</span></span>
-    <span class="number">5</span>
+    <span class="string">"ziyuan-jiami-<span class="subst">#{<span class="constant">SecureRandom</span>.hex(<span class="number">4</span>)}</span>.data"</span>
   <span class="keyword">end</span></pre></div></div>
             
         </li>
@@ -113,19 +88,17 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">def</span> <span class="title">numbers</span></span>
+            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">def</span> <span class="title">numbers</span><span class="params">(n)</span></span>
     <span class="constant">Enumerator</span>.new <span class="keyword">do</span> |y|
-      loop { y &lt;&lt; <span class="constant">SecureRandom</span>.random_number(single_file_max_size) + <span class="number">1</span> }
+      loop { y &lt;&lt; <span class="constant">SecureRandom</span>.random_number(n) + <span class="number">1</span> }
     <span class="keyword">end</span>
   <span class="keyword">end</span>
 
   <span class="function"><span class="keyword">def</span> <span class="title">filenames</span></span>
     <span class="constant">Enumerator</span>.new <span class="keyword">do</span> |y|
-      loop { y &lt;&lt; random_filename.call }
+      loop { y &lt;&lt; random_filename }
     <span class="keyword">end</span>
-  <span class="keyword">end</span>
-
-  <span class="variable">@n</span> = <span class="number">0</span></pre></div></div>
+  <span class="keyword">end</span></pre></div></div>
             
         </li>
         
@@ -140,9 +113,10 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">def</span> <span class="title">size_filename_pair</span><span class="params">(total_file_size)</span></span>
-    numbers.each
-           .take_while { |e|  <span class="variable">@n</span> += e; <span class="variable">@n</span> &lt; total_file_size }
+            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">def</span> <span class="title">size_filename_pair</span><span class="params">(total_file_size, single_file_max_size)</span></span>
+    n = <span class="number">0</span>
+    numbers(single_file_max_size).each
+           .take_while { |e|  n += e; n &lt; total_file_size }
            .zip(filenames)
            .map { |gigabye, filename| [gigabye * <span class="number">1331</span>, filename] }
   <span class="keyword">end</span>
@@ -176,11 +150,11 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">def</span> <span class="title">gen</span><span class="params">(total_file_size)</span></span>
-    <span class="constant">U</span>.size_filename_pair(total_file_size).each <span class="keyword">do</span> |size_in_mb, filename|
+            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">def</span> <span class="title">gen</span><span class="params">(total_file_size = <span class="number">100</span>, single_file_max_size = <span class="number">5</span>)</span></span>
+    <span class="constant">U</span>.size_filename_pair(total_file_size, single_file_max_size).each <span class="keyword">do</span> |size_in_mb, filename|
       p <span class="string">"writing <span class="subst">#{filename}</span>, <span class="subst">#{size_in_mb}</span>MB"</span>
       size_in_mb.times <span class="keyword">do</span>
-        <span class="constant">File</span>.open(filename, <span class="string">'a'</span>) { |f| f.puts <span class="constant">U</span>.blockdata.call }
+        <span class="constant">File</span>.open(filename, <span class="string">'a'</span>) { |f| f.puts <span class="constant">U</span>.blockdata }
       <span class="keyword">end</span>
     <span class="keyword">end</span>
   <span class="keyword">end</span>
@@ -213,7 +187,98 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="constant">GenHugeFile</span>.gen <span class="constant">ARGV</span>[<span class="number">0</span>].to_i || <span class="number">100</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="constant">GenHugeFile</span>.gen <span class="constant">ARGV</span>[<span class="number">0</span>].to_i</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <h1 id="-bash-dd-">用bash的dd生成松散文件。</h1>
+<p>好处：速度非常非常快。松散文件内容都是0，用ls等工具查看，显示的大小很大。
+其实它只是对操作系统声明自己要占那么多地方，而实际上根本没占什么地方
+如果怕被发现生成的文件实际没有那么大。可以在生成后，用openssl加密一下文件。
+加密后的文件占用的空间就是实际声明的大小了。内容也看不出来都是0.
+命名空间
+module GenHugeFileBash</p>
+<h1 id="include-u-class-instance-self-method-u">include U # 没用，只对 class instance 起作用 ； 即使写了，在self.method中仍需要写U</h1>
+<p>  def gen(total_file_size = 100)
+    U.size_filename_pair(total_file_size).each do |size_in_mb, filename|
+      p &quot;writing #{filename}, #{size_in_mb}MB&quot;
+      system(&quot;dd if=/dev/zero of=#{filename} bs=1 count=0 seek=#{size_in_mb}m&quot;)
+    end
+  end
+  module_function :gen
+end</p>
+<p>GenHugeFileBash.gen ARGV[0].to_i</p>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <h1 id="-">加密松散文件</h1>
+<p>加密速度会很慢，1G一分钟。起个中断，输入加密命令然后走人即可。
+<a href="http://stackoverflow.com/questions/8641109/encrypt-a-file-using-bash-shell-script">http://stackoverflow.com/questions/8641109/encrypt-a-file-using-bash-shell-script</a>
+openssl des3 -salt -in /pritom/uaeyha_com.sql -out /pritom/a.ss -pass pass:pritom</p>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <h1 id="-">命令式编程风格的代码</h1>
+<p>module GenHugeFileImperative
+  def blockdata
+    SecureRandom.random_bytes(1024 * 1193)
+  end</p>
+<p>  def gen(total_file_size=100, single_file_max_size = 5)
+    n = 0
+    while n &lt; total_file_size
+      filename =  &quot;ziyuan-jiami-#{SecureRandom.hex(6)}.data&quot;
+      size = (SecureRandom.random_number single_file_max_size) + 1 # 因为random出来的数字可能是1
+      (1013 * size).times do
+        File.open(filename, &#39;a&#39;) { |f| f.puts blockdata }
+      end
+      n += size
+    end
+  end
+  module_function :gen :blockdata
+end</p>
+<p>GenHugeFileImperative.gen ARGV[0].to_i</p>
+
+            </div>
             
         </li>
         
