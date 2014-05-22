@@ -109,7 +109,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>[[6655, &quot;ziyuan-jiami-3dd9937c.data&quot;], [2662, &quot;ziyuan-jiami-82fff573.data&quot;], ... ]</p>
+              <ol>
+<li>numbers按需生成一系列数字，take_while根据判定收集这些数字一直到超过总共需要的大小为止</li>
+<li>然后我们将这些数字和随即文件名zip起来</li>
+<li>结果的例子： [[6655, &quot;ziyuan-jiami-3dd9937c.data&quot;], [2662, &quot;ziyuan-jiami-82fff573.data&quot;], ... ]</li>
+</ol>
 
             </div>
             
@@ -118,7 +122,7 @@
     numbers(single_file_max_size).each
            .take_while { |e|  n += e; n &lt; total_file_size }
            .zip(filenames)
-           .map { |gigabye, filename| [gigabye * <span class="number">1331</span>, filename] }
+           .map { |megabyte, filename| [megabyte * <span class="number">1331</span>, filename] }
   <span class="keyword">end</span>
 <span class="keyword">end</span></pre></div></div>
             
@@ -187,7 +191,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="constant">GenHugeFile</span>.gen <span class="constant">ARGV</span>[<span class="number">0</span>].to_i</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="constant">GenHugeFile</span>.gen <span class="constant">ARGV</span>[<span class="number">0</span>].to_i, <span class="constant">ARGV</span>[<span class="number">1</span>].to_i</pre></div></div>
             
         </li>
         

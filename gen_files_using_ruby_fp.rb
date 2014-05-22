@@ -51,13 +51,15 @@ module U
     end
   end
 
-  # [[6655, "ziyuan-jiami-3dd9937c.data"], [2662, "ziyuan-jiami-82fff573.data"], ... ]
+  # 1. numbers按需生成一系列数字，take_while根据判定收集这些数字一直到超过总共需要的大小为止
+  # 1. 然后我们将这些数字和随即文件名zip起来
+  # 1. 结果的例子： [[6655, "ziyuan-jiami-3dd9937c.data"], [2662, "ziyuan-jiami-82fff573.data"], ... ]
   def size_filename_pair(total_file_size, single_file_max_size)
     n = 0
     numbers(single_file_max_size).each
            .take_while { |e|  n += e; n < total_file_size }
            .zip(filenames)
-           .map { |gigabye, filename| [gigabye * 1331, filename] }
+           .map { |megabyte, filename| [megabyte * 1331, filename] }
   end
 end
 
@@ -77,8 +79,7 @@ end
 
 # ----
 # 干活
-GenHugeFile.gen ARGV[0].to_i
-
+GenHugeFile.gen ARGV[0].to_i, ARGV[1].to_i
 
 # ----
 ## 用bash的dd生成松散文件。
